@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { 
   Sparkles, 
-  Layers, 
   TrendingUp, 
   UserCheck, 
   Briefcase, 
@@ -80,9 +79,6 @@ export default function OracleDetailsPanel({ prediction, onClose, onSelectNext }
   const timeline = getTimelineContent();
   const confidence = Math.min(100, Math.max(0, prediction.predictionConfidence || 85));
   const category = prediction.therapeuticAreas?.[0] || 'AI Stream';
-
-  // SVG Gauge calculations
-  const strokeDashoffset = 180 - (180 * confidence) / 100;
 
   return (
     <div className="h-full bg-slate-950/85 backdrop-blur-xl border border-slate-800/90 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden text-slate-100 transition-all duration-300">

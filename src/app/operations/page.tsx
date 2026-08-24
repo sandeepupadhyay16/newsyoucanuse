@@ -392,7 +392,7 @@ export default function OperationsPage() {
                   <>
                     <Loader2 size={16} className="animate-spin text-pink-500 shrink-0" />
                     <div className="text-[10px] font-semibold text-slate-700">
-                      Crawl running on: <strong className="text-slate-900">"{activeRun.sourceName || 'Multiple Sources'}"</strong>
+                      Crawl running on: <strong className="text-slate-900">&quot;{activeRun.sourceName || 'Multiple Sources'}&quot;</strong>
                     </div>
                   </>
                 ) : (
@@ -683,10 +683,10 @@ export default function OperationsPage() {
                       Connection Timeout / Failed Fetch
                     </div>
                     <div className="text-[10px] font-semibold text-slate-800">
-                      Source Name: <strong className="text-slate-950">"{alert.sourceName}"</strong>
+                      Source Name: <strong className="text-slate-950">&quot;{alert.sourceName}&quot;</strong>
                     </div>
                     <div className="text-[10px] text-slate-500 leading-relaxed font-semibold italic truncate" title={alert.error}>
-                      Error detail: "{alert.error}"
+                      Error detail: &quot;{alert.error}&quot;
                     </div>
                     <div className="text-[9px] text-slate-400 font-bold">
                       Detected At: {new Date(alert.createdAt).toLocaleString()}

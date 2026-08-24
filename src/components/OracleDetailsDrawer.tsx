@@ -3,18 +3,14 @@
 import React, { useState } from 'react';
 import { 
   Sparkles, 
-  Layers, 
   TrendingUp, 
   UserCheck, 
   Briefcase, 
   Clock, 
   ShieldCheck, 
-  ArrowUpRight, 
   Share2, 
   X,
-  Target,
   Zap,
-  Activity,
   ChevronRight,
   ChevronLeft
 } from 'lucide-react';

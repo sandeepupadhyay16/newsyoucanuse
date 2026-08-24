@@ -29,7 +29,7 @@ export default function SemanticVectorSpace({ items = [] }: SemanticVectorSpaceP
     let nodes: VectorNode[] = [];
 
     if (items && items.length > 0) {
-      nodes = items.map((item, idx) => {
+      nodes = items.map(item => {
         // Deterministic mapping using string hash for coordinates
         const getHash = (str: string, seed: number) => {
           let hash = 0;

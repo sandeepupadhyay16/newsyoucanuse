@@ -10,11 +10,7 @@ import {
   Zap, 
   Briefcase, 
   UserCheck, 
-  Layers, 
-  ArrowRight,
-  Clock,
-  CheckCircle2,
-  Calendar
+  ArrowRight
 } from 'lucide-react';
 import { OraclePredictionItem } from './OracleDetailsPanel';
 

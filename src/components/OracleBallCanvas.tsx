@@ -383,7 +383,7 @@ export default function OracleBallCanvas({
       renderer.domElement.style.cursor = 'grabbing';
     };
 
-    const onPointerUp = (event: PointerEvent) => {
+    const onPointerUp = (_event: PointerEvent) => {
       isDraggingRef.current = false;
       renderer.domElement.style.cursor = 'grab';
 

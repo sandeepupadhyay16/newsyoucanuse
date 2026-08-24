@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized. Only the Admin can configure system settings.' }, { status: 403 });
     }
 
-    let responsePayload: any = { success: true };
+    const responsePayload: any = { success: true };
 
     // 1. Handle weights update
     if (weights) {

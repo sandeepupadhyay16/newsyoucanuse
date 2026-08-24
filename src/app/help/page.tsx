@@ -264,7 +264,7 @@ export default function HelpPage() {
                 <div className="text-center py-16 bg-white border border-slate-200 rounded-2xl">
                   <Info size={24} className="mx-auto text-slate-400 mb-2" />
                   <p className="text-xs text-slate-500 font-bold">No matching help questions found.</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5">Try a different search term like "pipeline", "SSO", or "print".</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">Try a different search term like &quot;pipeline&quot;, &quot;SSO&quot;, or &quot;print&quot;.</p>
                 </div>
               ) : (
                 filteredFAQs.map((faq, idx) => (

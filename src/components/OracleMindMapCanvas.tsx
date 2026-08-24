@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { oracleAudio } from './OracleAudioEngine';
 import { OraclePredictionItem } from './OracleDetailsPanel';
 import { TimeHorizonType } from './OracleHudOverlay';
@@ -11,16 +11,12 @@ import {
   Compass, 
   Code2, 
   TrendingUp, 
-  ShieldCheck, 
   Zap, 
   ChevronRight,
   Maximize2,
   ZoomIn,
   ZoomOut,
-  Clock,
   FileText,
-  Layers,
-  ArrowRight,
   Plus,
   Minus
 } from 'lucide-react';
@@ -56,10 +52,10 @@ export default function OracleMindMapCanvas({
   searchQuery = '',
   selectedCategory = 'All',
   activeHorizon = 'all',
-  focusedStream = null,
+  focusedStream: _focusedStream = null,
   onFocusStream,
   onOpenExecutiveBrief,
-  isTourActive = false
+  isTourActive: _isTourActive = false
 }: OracleMindMapCanvasProps) {
   // Pan & Zoom Stage State
   const [zoom, setZoom] = useState<number>(0.85);

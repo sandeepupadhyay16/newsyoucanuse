@@ -1,5 +1,4 @@
 import { Agent, setGlobalDispatcher } from 'undici';
-import { prisma } from '@/lib/db';
 
 const globalAgent = new Agent({
   headersTimeout: 600000, // 10 minutes
@@ -144,7 +143,7 @@ export async function chatCompletionWithUsage(
                   if (data.usage) {
                     usage = data.usage;
                   }
-                } catch (e) {
+                } catch {
                   // Silently ignore incomplete parse chunks
                 }
               }
@@ -162,7 +161,7 @@ export async function chatCompletionWithUsage(
                     if (data.usage) {
                       usage = data.usage;
                     }
-                  } catch (e) {
+                  } catch {
                     // Silently ignore
                   }
                 }

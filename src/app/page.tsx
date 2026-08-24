@@ -1,25 +1,16 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { usePersona } from '@/components/ClientWrapper';
 import { 
   Sparkles, 
   TrendingUp, 
-  TrendingDown,
   Minus,
-  Layers, 
   ArrowRight, 
-  X,
   Compass,
-  Target,
-  Zap,
   Cpu,
   Workflow,
   Code2,
-  Terminal,
   Activity,
-  Globe,
-  Users,
   Loader2,
   ChevronRight,
   Flame,
@@ -172,7 +163,6 @@ const DEFAULT_TECH_STREAMS = [
 ];
 
 export default function HomePage() {
-  const { currentPersona } = usePersona();
   const [techStreams, setTechStreams] = useState<StreamCard[]>(() => DEFAULT_TECH_STREAMS.map(s => getStreamCard(s)));
   const [trendingSignals, setTrendingSignals] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);

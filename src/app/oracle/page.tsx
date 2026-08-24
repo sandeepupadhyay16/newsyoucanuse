@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { usePersona } from '@/components/ClientWrapper';
 import { 
   TrendingUp, 
   Sparkles, 
@@ -10,12 +9,7 @@ import {
   Workflow, 
   Compass, 
   Code2, 
-  Loader2, 
-  X,
-  Filter,
-  SlidersHorizontal,
-  Zap,
-  Globe
+  Loader2 
 } from 'lucide-react';
 import OracleMindMapCanvas from '@/components/OracleMindMapCanvas';
 import OracleDetailsDrawer from '@/components/OracleDetailsDrawer';
@@ -25,7 +19,6 @@ import { OraclePredictionItem } from '@/components/OracleDetailsPanel';
 import { oracleAudio } from '@/components/OracleAudioEngine';
 
 export default function OraclePage() {
-  const { currentPersona } = usePersona();
   const [predictions, setPredictions] = useState<OraclePredictionItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPredict, setSelectedPredict] = useState<OraclePredictionItem | null>(null);
@@ -43,14 +36,6 @@ export default function OraclePage() {
   const [focusedStream, setFocusedStream] = useState<string | null>(null);
   const [isTourActive, setIsTourActive] = useState<boolean>(false);
   const [isBriefModalOpen, setIsBriefModalOpen] = useState<boolean>(false);
-
-  const streamsIcons: Record<string, any> = {
-    'Frontier Model Capabilities': Sparkles,
-    'Model-on-Chip Advancements': Cpu,
-    'Agentic Architectures': Workflow,
-    'Ways of Working': Compass,
-    'Development Frameworks': Code2
-  };
 
   const categories = [
     'All',

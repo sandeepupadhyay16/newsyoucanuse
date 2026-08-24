@@ -125,7 +125,7 @@ export default function NeuralAgentCluster() {
       progress: number;
       color: string;
     }
-    let pulses: PulseData[] = [];
+    const pulses: PulseData[] = [];
 
     const spawnPulse = () => {
       const fromIdx = Math.floor(Math.random() * AGENTS.length);

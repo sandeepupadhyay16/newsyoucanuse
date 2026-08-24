@@ -15,10 +15,8 @@ import {
   Clock,
   Play,
   Pause,
-  RotateCcw,
   FileText,
-  X,
-  Compass
+  X
 } from 'lucide-react';
 
 export type TimeHorizonType = 'all' | 'short' | 'medium' | 'long';

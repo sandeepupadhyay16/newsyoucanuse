@@ -64,7 +64,8 @@ export async function POST(request: Request) {
       const buffer = Buffer.from(arrayBuffer);
 
       if (file.name.toLowerCase().endsWith('.pdf')) {
-        const pdfParse = require('pdf-parse');
+        const pdfParseModule: any = await import('pdf-parse');
+        const pdfParse = pdfParseModule.default || pdfParseModule;
         const pdfData = await pdfParse(buffer);
         content = pdfData.text || '';
       } else {
@@ -106,7 +107,7 @@ export async function POST(request: Request) {
     });
 
     // 3. Query active tech streams from database configuration
-    let streamsConfig = await prisma.systemConfig.findUnique({
+    const streamsConfig = await prisma.systemConfig.findUnique({
       where: { key: 'tech_streams' }
     });
     const activeStreams = streamsConfig

@@ -78,7 +78,6 @@ export function parseMarkdownText(text: string, isUser = false) {
   const lines = text.split('\n');
   const elements: React.ReactNode[] = [];
   let currentList: React.ReactNode[] = [];
-  let isList = false;
 
   const parseBold = (str: string) => {
     const parts = str.split('**');
@@ -108,7 +107,6 @@ export function parseMarkdownText(text: string, isUser = false) {
 
     if (trimmed.startsWith('###')) {
       flushList(index);
-      isList = false;
       const headerText = trimmed.replace(/^###\s*/, '');
       elements.push(
         <h5 key={index} className={`font-extrabold text-[10px] uppercase tracking-wider mt-3 mb-1.5 flex items-center gap-1 ${isUser ? 'text-white' : 'text-slate-900'}`}>
@@ -117,7 +115,6 @@ export function parseMarkdownText(text: string, isUser = false) {
       );
     } else if (trimmed.startsWith('##')) {
       flushList(index);
-      isList = false;
       const headerText = trimmed.replace(/^##\s*/, '');
       elements.push(
         <h4 key={index} className={`font-extrabold text-xs mt-4 mb-1.5 ${isUser ? 'text-white' : 'text-slate-900'}`}>
@@ -125,7 +122,6 @@ export function parseMarkdownText(text: string, isUser = false) {
         </h4>
       );
     } else if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
-      isList = true;
       const content = trimmed.substring(2);
       currentList.push(
         <li key={`li-${index}`} className="leading-relaxed">
@@ -134,7 +130,6 @@ export function parseMarkdownText(text: string, isUser = false) {
       );
     } else if (/^\d+\.\s/.test(trimmed)) {
       flushList(index);
-      isList = false;
       const content = trimmed.replace(/^\d+\.\s*/, '');
       elements.push(
         <div key={index} className={`flex gap-1.5 my-1 leading-relaxed pl-0.5 ${textClass}`}>
@@ -144,10 +139,8 @@ export function parseMarkdownText(text: string, isUser = false) {
       );
     } else if (trimmed === '') {
       flushList(index);
-      isList = false;
     } else {
       flushList(index);
-      isList = false;
       elements.push(
         <p key={index} className={`mb-1.5 leading-relaxed ${textClass}`}>
           {parseBold(trimmed)}
@@ -341,9 +334,6 @@ export default function ProjectDetailModal({ project: propProject, onClose, onRe
     }
   };
 
-  // Determine if this is a horizon-sourced harvested item (vs a manual intake submission)
-  const isHarvestedFromFeed = project.source === 'News Feed' || project.phase === 'Harvested';
-
   // Relevancy scores with friendly labels
   const strategicImpact = project.impactWorkingScore ?? 0;
   const innovationPotential = project.impactDevelopmentScore ?? 0;
@@ -452,13 +442,13 @@ export default function ProjectDetailModal({ project: propProject, onClose, onRe
                 ⚠️ Rejection / Dismissal Reason
               </div>
               <p className="text-xs text-amber-900 font-semibold leading-relaxed italic">
-                "{project.dismissedReason}"
+                &quot;{project.dismissedReason}&quot;
               </p>
               {/* Detailed LLM Critic Reasoning if it exists in criticInsight */}
               {project.criticInsight && (
                 <div className="mt-3 pt-3 border-t border-amber-200/60 space-y-2">
                   <div className="text-[9px] font-bold text-amber-600 uppercase tracking-wider">
-                    Critic's Initial Evaluation
+                    Critic&apos;s Initial Evaluation
                   </div>
                   <div className="text-xs text-amber-900 leading-relaxed font-medium">
                     {parseMarkdownText(project.criticInsight)}

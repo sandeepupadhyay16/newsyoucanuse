@@ -11,7 +11,6 @@ import {
   Workflow,
   Compass,
   Code2,
-  Calendar,
   Layers,
   Radio,
   Flame,

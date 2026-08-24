@@ -390,7 +390,7 @@ export async function POST(request: Request) {
     ));
 
     // ── Phase 1: DuckDuckGo crawl to get homepage URLs ──────────────────────────
-    let crawledCandidates: Array<{ title: string; url: string; snippet: string }> = [];
+    const crawledCandidates: Array<{ title: string; url: string; snippet: string }> = [];
     try {
       let query = body.query;
       if (!query) {

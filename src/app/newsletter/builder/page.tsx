@@ -438,7 +438,7 @@ export default function NewsletterBuilderPage() {
                       <div className="space-y-1">
                         <span className="text-[9px] font-extrabold uppercase tracking-widest text-slate-400 print:text-slate-600 block">Oracle Forecast & Trajectory</span>
                         <p className="text-[11px] text-slate-300 leading-relaxed print:text-slate-900 font-serif italic">
-                          "{c.trajectoryPrediction}"
+                          &quot;{c.trajectoryPrediction}&quot;
                         </p>
                       </div>
                     </div>

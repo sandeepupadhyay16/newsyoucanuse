@@ -2,42 +2,25 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { 
   Home, 
-  ShoppingBag, 
-  Layers, 
   Link2,
   FilePlus, 
-  BarChart2, 
-  Shield, 
-  UserCheck, 
   Menu, 
   X,
   Sparkles,
   Send,
   Loader2,
   Check,
-  AlertTriangle,
-  AlertCircle,
-  Lightbulb,
   Activity,
-  DollarSign,
-  ShieldAlert,
-  ClipboardList,
-  Edit3,
   History,
   Trash2,
   PlusCircle,
-  Coins,
   Globe,
   Archive,
   HelpCircle,
   ChevronDown,
-  LogOut,
-  User,
-  Compass,
-  ArrowRight,
   TrendingUp
 } from 'lucide-react';
 
@@ -246,7 +229,6 @@ const DEFAULT_USER: AuthenticatedUser = {
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   
   // User Authentication & Simulation States - Direct Access Default User
   const [currentUser, setCurrentUser] = useState<AuthenticatedUser>(DEFAULT_USER);
@@ -641,7 +623,7 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
             return m;
           }));
         }
-      } catch (err) {
+      } catch {
         clearInterval(interval);
       }
     }, 2000);

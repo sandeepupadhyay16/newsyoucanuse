@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     // 1. Add the stream dynamically to tech_streams if not present
     const streamsConfig = await prisma.systemConfig.findUnique({ where: { key: 'tech_streams' } });
-    let currentStreams = streamsConfig ? streamsConfig.value.split(',').map(s => s.trim()).filter(Boolean) : [];
+    const currentStreams = streamsConfig ? streamsConfig.value.split(',').map(s => s.trim()).filter(Boolean) : [];
     if (!currentStreams.some(s => s.toLowerCase() === stream.toLowerCase())) {
       currentStreams.push(stream);
       await prisma.systemConfig.upsert({
@@ -23,8 +23,8 @@ export async function POST(request: Request) {
     }
 
     // 2. Call local discover-sources API flow directly to find a feed source
-    let sourceUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(stream)}`;
-    let sourceName = `${stream} News Feed`;
+    const sourceUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(stream)}`;
+    const sourceName = `${stream} News Feed`;
 
     try {
       // Find fallback or crawlers

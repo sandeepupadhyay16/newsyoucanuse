@@ -139,7 +139,7 @@ export default function TemporalTunnel({ predictions, onSelect }: TemporalTunnel
     // 4. Mouse Move Camera Drift & Raycasting
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-    let targetCameraPos = { x: 0, y: 0, z: 5 };
+    const targetCameraPos = { x: 0, y: 0, z: 5 };
 
     const onMouseMove = (event: MouseEvent) => {
       const rect = renderer.domElement.getBoundingClientRect();

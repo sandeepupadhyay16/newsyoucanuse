@@ -3,32 +3,23 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Link2,
-  Layers,
-  Search,
   Plus,
   Trash2,
   Edit3,
   Check,
-  X,
   Loader2,
   ToggleLeft,
   ToggleRight,
   Activity,
   Sparkles,
   RefreshCw,
-  Radio,
   TrendingUp,
   Cpu,
   Workflow,
   Compass,
   Code2,
-  CheckCircle2,
-  XCircle,
-  Clock,
-  Compass as CompassIcon,
-  Globe
+  CheckCircle2
 } from 'lucide-react';
-import Link from 'next/link';
 import SemanticVectorSpace from '@/components/SemanticVectorSpace';
 
 // ─────────────── Types ───────────────
@@ -262,7 +253,7 @@ export default function SourcesPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stream: discoverStream, query: customDiscoverQuery })
       });
-      const data = await res.json();
+      await res.json();
       clearInterval(interval);
       setDiscoveryStage('');
       await loadRecommendations();

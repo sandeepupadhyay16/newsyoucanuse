@@ -936,7 +936,7 @@ export default function ExternalScanPage() {
             <div className="space-y-2">
               <h3 className="text-sm font-black text-slate-950 uppercase tracking-wider">Confirm Deletion</h3>
               <p className="text-xs text-slate-600 leading-relaxed font-semibold">
-                Are you sure you want to permanently delete "{deleteTarget.title}"?
+                Are you sure you want to permanently delete &quot;{deleteTarget.title}&quot;?
               </p>
             </div>
             

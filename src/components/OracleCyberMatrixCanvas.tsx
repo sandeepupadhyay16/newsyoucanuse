@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import * as THREE from 'three';
 import { oracleAudio } from './OracleAudioEngine';
 import { OraclePredictionItem } from './OracleDetailsPanel';
-import { Sparkles, ShieldCheck, TrendingUp, Clock, ChevronRight, Zap } from 'lucide-react';
+import { TrendingUp, ChevronRight } from 'lucide-react';
 
 interface OracleCyberMatrixCanvasProps {
   predictions: OraclePredictionItem[];
@@ -161,7 +161,6 @@ export default function OracleCyberMatrixCanvas({
     ];
 
     planes.forEach(plane => {
-      const count = plane.items.length;
       const cols = 3;
 
       plane.items.forEach((pred, idx) => {
@@ -285,7 +284,7 @@ export default function OracleCyberMatrixCanvas({
       renderer.domElement.style.cursor = 'grabbing';
     };
 
-    const onPointerUp = (event: PointerEvent) => {
+    const onPointerUp = (_event: PointerEvent) => {
       isDraggingRef.current = false;
       renderer.domElement.style.cursor = 'grab';
 

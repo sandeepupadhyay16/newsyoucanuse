@@ -18,7 +18,7 @@ export async function validateUrlForSSRF(urlStr: string): Promise<boolean> {
     const { address } = await dnsLookup(hostname);
     
     return isPublicIp(address);
-  } catch (e) {
+  } catch {
     return false;
   }
 }
