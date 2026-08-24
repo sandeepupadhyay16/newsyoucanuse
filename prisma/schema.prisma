@@ -1,0 +1,328 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model Project {
+  id                  String             @id @default(uuid())
+  title               String
+  problemStatement    String             // Problem description
+  integrations        String[]           // Integration targets (e.g. Veeva, Adobe Target)
+  budgetStatus        String             // Budget availability details
+  stakeholderStatus   String             // Stakeholder alignment details
+  opportunityCost     String             // Impact of not doing the project
+  businessCase        String             // Financial Business Case text
+  financialRoi        Float              // Annualized ROI in USD
+  budgetRequiredVal   Float              // Implementation cost in USD
+  execSponsor         String
+  productOwner        String
+  deploymentGateway   String             // Production URL
+  phase               String             // "Draft" | "Backlog" | "Working" | "Ready" | "Scheduled"
+  submittedBy         String             @default("")  // Persona name who submitted
+  submittedAt         DateTime?
+  feedback            String             @default("")
+  
+  // Cross-therapeutic areas
+  therapeuticAreas    String[]
+  
+  // 6 Scorecard vectors (0.0 to 100.0)
+  budgetAvailabilityScore     Float
+  dataAvailabilityScore       Float
+  stakeholderReadinessScore   Float
+  impactOfNotDoingScore       Float
+  financialBusinessCaseScore  Float
+  budgetRequiredScore         Float
+  readinessScore              Float      // Computed weighted average
+  
+  // Specialist Agent Insights & Aggregate Idea Score
+  ideaScore                   Float      @default(70.0)
+  checkerInsight              String     @default("")
+  brainstormerInsight         String     @default("")
+  validatorInsight            String     @default("")
+  businessCaseInsight         String     @default("")
+  criticInsight               String     @default("")
+  fitRationale                String     @default("")
+  
+  // 3-year financial model
+  financialRoiY1              Float      @default(0.0)
+  financialRoiY2              Float      @default(0.0)
+  financialRoiY3              Float      @default(0.0)
+  budgetRequiredY1            Float      @default(0.0)
+  budgetRequiredY2            Float      @default(0.0)
+  budgetRequiredY3            Float      @default(0.0)
+
+  // Extra details requested by steering committee
+  businessCaseRationale      String     @default("")
+  dependencies                String     @default("")
+  businessCaseFile            String     @default("")
+  dataReadiness               String     @default("") // Data availability and readiness details
+  
+  functionalDomains   String[]           // e.g., ["Omnichannel Intelligence"]
+  
+  // v2 Blueprint Fields
+  source              String             @default("Intake Wizard") // "Transcript" | "News Feed" | "Newsletter" | "Intake Wizard"
+  sourceUrl           String             @default("")
+  author              String             @default("")
+  publishDate         DateTime?          @default(now())
+  
+  impactWorkingScore      Float            @default(70.0) // W_k: Future Ways of Working
+  impactDevelopmentScore  Float            @default(70.0) // W_d: Ways of Development
+  feasibilityScore        Float            @default(70.0) // C: Commercial Feasibility & Scalability
+  relevancyScore          Float            @default(70.0) // w_1 W_k + w_2 W_d + w_3 C
+  
+  agendaTimeBlock     Int?               @default(0)    // minutes for presentation
+  assignedExpertId    String?            @default("")   // assigned speaker expert ID
+  scheduledDate       String?            @default("")   // YYYY-MM-DD Think Tank meeting date
+  
+  upvotes             Int                @default(0)
+  downvotes           Int                @default(0)
+  dismissedReason     String             @default("")
+
+  // Speaker & Partner assignment (for backlog items)
+  speakerName         String             @default("")
+  partnerName         String             @default("")
+
+  // Refactored fields
+  consultantImplication   String          @default("")
+  practitionerImplication String          @default("")
+  trajectoryPrediction    String          @default("")
+  predictionsTimeline     String          @default("") // JSON string for short, medium, long term timeline predictions
+  predictionConfidence    Float           @default(70.0)
+
+  authorId            String?
+  authorExpert        Expert?            @relation(fields: [authorId], references: [id])
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  embeddings          ProjectEmbedding[]
+}
+
+model ProjectEmbedding {
+  id        String                @id @default(uuid())
+  projectId String                @unique
+  project   Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  embedding Unsupported("vector")
+  createdAt DateTime              @default(now())
+}
+
+model Expert {
+  id            String            @id @default(uuid())
+  name          String
+  title         String
+  organization  String            // e.g., Global Data Science
+  availability  String            // "Available" | "Busy" | "Limited"
+  email         String?           // Optional now to prevent LLM hallucinations
+  teamsId       String?           // Optional now to prevent LLM hallucinations
+  competencies  String[]          // e.g., ["NLP", "Machine Learning"]
+  bio           String            @default("")
+  avatarUrl     String            @default("")
+  projects      Project[]
+  articles      Article[]         // Linked raw articles
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  embeddings    ExpertEmbedding[]
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String
+  avatarUrl   String?
+  role        String   @default("READER") // "READER" | "EDITOR"
+  provider    String   // "Google" | "Apple"
+  createdAt   DateTime @default(now())
+}
+
+model ExpertEmbedding {
+  id        String                @id @default(uuid())
+  expertId  String                @unique
+  expert    Expert                @relation(fields: [expertId], references: [id], onDelete: Cascade)
+  embedding Unsupported("vector")
+  createdAt DateTime              @default(now())
+}
+
+model MeetingIngestion {
+  id        String   @id @default(uuid())
+  fileName  String?
+  content   String
+  parsedAt  DateTime @default(now())
+}
+
+model SystemConfig {
+  key   String @id
+  value String
+}
+
+model FeedSource {
+  id            String     @id @default(uuid())
+  name          String
+  type          String     // "RSS Feed" | "Website Scraper" | "Newsletter Extract"
+  url           String     @unique
+  frequency     String     // "Real-time" | "Hourly" | "Daily" | "Weekly"
+  enabled       Boolean    @default(true)
+  category      String     @default("General")
+  lastScannedAt DateTime? 
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  items         FeedItem[]
+}
+
+model FeedItem {
+  id                      String      @id @default(uuid())
+  feedSourceId            String
+  feedSource              FeedSource  @relation(fields: [feedSourceId], references: [id], onDelete: Cascade)
+  title                   String
+  summary                 String
+  sourceUrl               String
+  author                  String      @default("")
+  publishDate             DateTime?   @default(now())
+  impactWorkingScore      Float       @default(70.0)
+  impactDevelopmentScore  Float       @default(70.0)
+  feasibilityScore        Float       @default(70.0)
+  relevancyScore          Float       @default(70.0)
+  functionalDomains       String[]
+  therapeuticAreas        String[]
+  harvested               Boolean     @default(false)
+  upvotes                 Int         @default(0)
+  downvotes               Int         @default(0)
+  dismissedReason         String      @default("")
+  pfizerImplication       String      @default("")
+  criticInsight           String      @default("")
+  fitRationale            String      @default("")
+  scoreRationale          String      @default("") // JSON string with per-dimension rationale
+  sourceCount             Int         @default(1)
+  sourceNames             String[]
+
+  // Refactored fields
+  consultantImplication   String      @default("")
+  practitionerImplication String      @default("")
+  trajectoryPrediction    String      @default("")
+  predictionsTimeline     String      @default("") // JSON string containing timeline predictions
+  predictionConfidence    Float       @default(70.0)
+
+  createdAt               DateTime    @default(now())
+}
+
+model ScanRun {
+  id                 String    @id @default(uuid())
+  startedAt          DateTime  @default(now())
+  completedAt        DateTime?
+  status             String
+  addedCount         Int       @default(0)
+  logs               String
+  sourceId           String?
+  sourceName         String?
+  durationMs         Int?
+  tokensUsed         Int?
+  sourceStatsJson    String?   // JSON mapping of sourceId to { durationMs, tokensUsed, articlesIngested }
+  parsedCount        Int       @default(0)
+  ingestedCount      Int       @default(0)
+  rejectedCount      Int       @default(0)
+  failedCount        Int       @default(0)
+}
+
+model ProcessedArticle {
+  id          String   @id @default(uuid())
+  title       String
+  url         String
+  processedAt DateTime @default(now())
+  status      String   // "Accepted" | "Rejected"
+  
+  @@unique([url, title])
+  @@index([url])
+  @@index([title])
+}
+
+model NewsletterEdition {
+  id          String   @id @default(uuid())
+  title       String
+  createdAt   DateTime @default(now())
+  projectIds  String[]
+  editorial   String?
+}
+
+// ── App Overhaul New Models ──
+
+model Theme {
+  id        String         @id @default(uuid())
+  title     String
+  summary   String
+  stream    String
+  createdAt DateTime       @default(now())
+  groups    ArticleGroup[]
+}
+
+model ArticleGroup {
+  id                    String                 @id @default(uuid())
+  themeId               String
+  theme                 Theme                  @relation(fields: [themeId], references: [id], onDelete: Cascade)
+  title                 String
+  summary               String
+  lastCoverageDate      DateTime               @default(now())
+  trajectoryPrediction  String                 @default("") // e.g., "Accelerating"
+  predictionsTimeline   String                 @default("") // JSON string: { shortTerm, mediumTerm, longTerm, trajectory, probability }
+  predictionConfidence  Float                  @default(70.0)
+  upvotes               Int                    @default(0)
+  downvotes             Int                    @default(0)
+  articles              Article[]
+  createdAt             DateTime               @default(now())
+  embeddings            ArticleGroupEmbedding[]
+}
+
+model ArticleGroupEmbedding {
+  id             String                @id @default(uuid())
+  articleGroupId String                @unique
+  articleGroup   ArticleGroup          @relation(fields: [articleGroupId], references: [id], onDelete: Cascade)
+  embedding      Unsupported("vector")
+  createdAt      DateTime              @default(now())
+}
+
+model Article {
+  id              String           @id @default(uuid())
+  articleGroupId  String?
+  articleGroup    ArticleGroup?    @relation(fields: [articleGroupId], references: [id], onDelete: SetNull)
+  title           String
+  content         String           // Downloaded full article content
+  url             String           @unique
+  sourceName      String
+  publishDate     DateTime?        @default(now())
+  stream          String
+  author          String           @default("")
+  authorExpertId  String?
+  authorExpert    Expert?          @relation(fields: [authorExpertId], references: [id], onDelete: SetNull)
+  createdAt       DateTime         @default(now())
+  assets          ExtractedAsset[]
+  embeddings      ArticleEmbedding[]
+}
+
+model ArticleEmbedding {
+  id         String                @id @default(uuid())
+  articleId  String                @unique
+  article    Article               @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  embedding  Unsupported("vector")
+  createdAt  DateTime              @default(now())
+}
+
+model ExtractedAsset {
+  id         String   @id @default(uuid())
+  type       String   // "chart" | "graph" | "visual"
+  url        String   // URL or base64 data
+  title      String   // Alt text or description
+  articleId  String
+  article    Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+}
+
+model IngestionAlert {
+  id         String   @id @default(uuid())
+  sourceId   String
+  sourceName String
+  error      String
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}

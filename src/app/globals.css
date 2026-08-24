@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fffaf0; /* Warm cream canvas */
+  --foreground: #0a0a0a; /* Dark navy ink */
+  --card: #f5f0e0;       /* Surface card */
+  --border: #e5e5e5;     /* Hairline border */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseBorder {
+  0%, 100% {
+    border-color: rgba(10, 10, 10, 0.1);
+  }
+  50% {
+    border-color: rgba(255, 77, 139, 0.4);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-pulseBorder {
+  animation: pulseBorder 3s infinite ease-in-out;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fffaf0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ebe6d6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #dcd7c6;
+}
+
+/* Clay Design System Panels */
+.glass-panel {
+  background: rgba(245, 240, 224, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(10, 10, 10, 0.08);
+}
+
+.glow-card:hover {
+  box-shadow: 0 0 20px -5px rgba(255, 77, 139, 0.15);
+}

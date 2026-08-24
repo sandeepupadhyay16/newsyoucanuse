@@ -1,0 +1,117 @@
+Created At: 2026-06-15T16:28:43Z
+Completed At: 2026-06-15T16:28:43Z
+File Path: `file:///home/supadhyay/Antigravity/Idea%20Harvester/src/app/external-scan/page.tsx`
+Total Lines: 704
+Total Bytes: 30763
+Showing lines 1 to 704
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: 'use client';
+2: 
+3: import React, { useState, useEffect } from 'react';
+4: import { usePersona } from '@/components/ClientWrapper';
+5: import { 
+6:   Globe, 
+7:   ExternalLink, 
+8:   Plus, 
+9:   Check, 
+10:   Loader2, 
+11:   Calendar, 
+12:   User, 
+13:   TrendingUp, 
+14:   Rss,
+15:   Trash2,
+16:   ListPlus,
+17:   Play,
+18:   RotateCcw,
+19:   Sliders,
+20:   ToggleLeft,
+21:   ToggleRight,
+22:   Info,
+23:   CheckCircle2,
+24:   XCircle,
+25:   X
+26: } from 'lucide-react';
+27: 
+28: interface ExternalStory {
+29:   id: string;
+30:   title: string;
+31:   summary: string;
+32:   source: string;
+33:   sourceUrl: string;
+34:   author: string;
+35:   publishDate: string;
+36:   impactWorkingScore: number;
+37:   impactDevelopmentScore: number;
+38:   feasibilityScore: number;
+39:   relevancyScore: number;
+40:   functionalDomains: string[];
+41:   therapeuticAreas: string[];
+42: }
+43: 
+44: interface IngestionSource {
+45:   id: string;
+46:   name: string;
+47:   type: 'RSS Feed' | 'Website Scraper' | 'Newsletter Extract';
+48:   url: string;
+49:   frequency: 'Real-time' | 'Hourly' | 'Daily' | 'Weekly';
+50:   enabled: boolean;
+51: }
+52: 
+53: interface Toast {
+54:   id: string;
+55:   message: string;
+56:   type: 'success' | 'error' | 'info';
+57: }
+58: 
+59: const DEFAULT_SOURCES: IngestionSource[] = [
+60:   { id: 'src-1', name: 'FiercePharma RSS Feed', type: 'RSS Feed', url: 'https://www.fiercepharma.com/rss', frequency: 'Daily', enabled: true },
+61:   { id: 'src-2', name: 'AI MedTech Weekly Newsletter', type: 'Newsletter Extract', url: 'digest@aimedtech-weekly.com', frequency: 
+<truncated 30627 bytes>
+658:                       </>
+659:                     ) : (
+660:                       <>
+661:                         <Plus size={12} />
+662:                         <span>Promote to Backlog</span>
+663:                       </>
+664:                     )}
+665:                   </button>
+666:                 </div>
+667:               </div>
+668:             );
+669:           })}
+670:         </div>
+671:       )}
+672: 
+673:       {/* Global Toasts list */}
+674:       <div className="fixed bottom-6 right-6 z-55 space-y-3 max-w-sm w-full">
+675:         {toasts.map(t => (
+676:           <div 
+677:             key={t.id}
+678:             className={`p-4 rounded-xl border shadow-xl flex justify-between items-start gap-3 backdrop-blur-md animate-fadeIn transition-all ${
+679:               t.type === 'success' 
+680:                 ? 'bg-emerald-50/90 text-emerald-950 border-emerald-250' 
+681:                 : t.type === 'error'
+682:                 ? 'bg-rose-50/90 text-rose-955 border-rose-250'
+683:                 : 'bg-[#fffaf0]/95 text-slate-850 border-slate-350'
+684:             }`}
+685:           >
+686:             <div className="flex gap-2">
+687:               {t.type === 'success' && <CheckCircle2 size={16} className="text-emerald-600 mt-0.5 shrink-0" />}
+688:               {t.type === 'error' && <XCircle size={16} className="text-rose-600 mt-0.5 shrink-0" />}
+689:               {t.type === 'info' && <Info size={16} className="text-pink-500 mt-0.5 shrink-0" />}
+690:               <p className="text-xs font-bold leading-relaxed">{t.message}</p>
+691:             </div>
+692:             <button 
+693:               onClick={() => removeToast(t.id)}
+694:               className="text-slate-400 hover:text-slate-850 transition-colors shrink-0 cursor-pointer"
+695:             >
+696:               <X size={14} />
+697:             </button>
+698:           </div>
+699:         ))}
+700:       </div>
+701:     </div>
+702:   );
+703: }
+704: 
+The above content shows the entire, complete file contents of the requested file.
